@@ -5,7 +5,7 @@
     <meta charset="UTF--8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- The title is now dynamic! -->
-    <title>Our Products - MagPlus</title>
+    <title>{{ product.title }} - MagPlus</title>
     <!-- Use root-relative paths for assets in the 'public' folder -->
     <link rel="stylesheet" href="/public/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -55,49 +55,17 @@
         
 
 
-
-<div class="product-page-layout">
-
-    
-    <aside id="filter-sidebar" class="filter-sidebar">
-        
-        <button class="accordion-header" aria-expanded="false" aria-controls="filter-content">
-            <span>Filters</span>
-            
-            <i class="fa-solid fa-chevron-down accordion-icon"></i>
-        </button>
-
-        
-        <div id="filter-content" class="accordion-content">
-            <form id="filter-form">
-                <!-- NEW: SIDEBAR SEARCH INPUT -->
-                <div class="filter-group">
-                    <h3>Search by Name</h3>
-                    <input type="search" id="sidebar-search-input" placeholder="Enter product name..." class="sidebar-search">
-                </div>
-                <div class="filter-group">
-                    <h3>Category</h3>
-                    <ul class="filter-list">
-                        
-                    </ul>
-                </div>
-            </form>
-        </div>
-    </aside>
-
-    
-    <main class="product-grid-container">
-        <div id="product-grid" class="product-grid">
-            
-            
-            
-        </div>
-
-        
-        <nav id="pagination-container" class="pagination-nav" aria-label="Product page navigation"></nav>
-    </main>
-
-</div>
+<article class="product-detail">
+    <div class="product-image-container">
+      <img src="/public/images/product5.webp" alt="Image of Braided USB-C to USB-C 100W Cable2">
+    </div>
+    <div class="product-info-container">
+      <h1>Braided USB-C to USB-C 100W Cable2</h1>
+      <p class="sku">SKU: MP-CABLEPRO2</p>
+      <p class="price" style="font-size: 1.5em; font-weight: bold; color: #d63384;">$20.00</p>
+      <p class="description">The durable, powerful cable for all your USB-C devices.2</p> 
+    </div>
+</article>
     </main>
 
     <footer>

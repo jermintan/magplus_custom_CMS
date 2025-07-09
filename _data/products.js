@@ -1,31 +1,44 @@
-const fs = require('fs');
-const path = require('path');
+module.exports = async () => {
+  const workerUrl = 'https://magplus-cms-worker.uxjermin.workers.dev/'; // Replace with your Worker's URL
 
-module.exports = () => {
-  const productsPath = path.join(__dirname, 'products_collection');
-  const files = fs.readdirSync(productsPath);
-  
-  const allProducts = [];
+  try {
+    const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+    const response = await fetch(workerUrl);
 
-  files.forEach(file => {
-    if (path.extname(file) === '.json') {
-      const content = fs.readFileSync(path.join(productsPath, file), 'utf8');
-      const data = JSON.parse(content);
-
-      // Ensure we are only processing single product objects, not arrays of products.
-      if (typeof data === 'object' && data !== null && !Array.isArray(data)) {
-        allProducts.push(data);
-      } else {
-        console.warn(`[Data Warning] Skipping file '${file}' because it is not a single JSON object.`);
-      }
+    if (!response.ok) {
+      console.error(`Error fetching products from Worker: ${response.status} ${response.statusText}`);
+      return [];
     }
-  });
 
-  // Sort products by SKU to ensure a consistent order
-  allProducts.sort((a, b) => (a.sku || '').localeCompare(b.sku || ''));
+    const data = await response.json(); // Parse the JSON response
 
-  // ✅ Filter out products missing a slug to prevent Eleventy build errors
-  const filteredProducts = allProducts.filter(p => p.slug);
+     if (!data || typeof data !== 'object' || !data.products || !Array.isArray(data.products)) {
+        console.error('Invalid data format from Worker:', data);
+        return [];
+      }
 
-  return filteredProducts;
+    const products = data.products; // Access the 'products' array inside the JSON object
+
+    // Add Slug?
+    const filteredProducts = products.map(product => ({
+        ...product,
+        slug: product.slug || slugify(product.title) // Generate the slug
+      }));
+
+    return filteredProducts;
+  } catch (error) {
+    console.error("Failed to fetch products:", error);
+    return [];
+  }
 };
+
+function slugify(str) {
+  if (!str || typeof str !== 'string') {
+    return '';
+  }
+  return str
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/[\s_-]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}

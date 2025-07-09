@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===================================================================
 
     // --- Global Nav Search Form (Redirects to products page) ---
-// --- REUSABLE SEARCH LOGIC FOR ALL SEARCH BARS ---
+// --- REUSABLE SEARCH LOGIC FOR ALL SEARCH BAR ---
 function handleSearchRedirect(formElement) {
     if (formElement) {
         formElement.addEventListener('submit', (event) => {
